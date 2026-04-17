@@ -71,5 +71,19 @@ class CameraBloc extends Bloc<CameraEvent, CameraState> {
         await s.controller.setExposurePoint(Offset(x, y));
       }
     
+    Future<void> _onPickImage(
+      PickImageFromGallery event, 
+      Emitter<CameraState> emit) async {
+        final picker = ImagePicker();
+        final picked = await picker.pickImage(source: ImageSource.gallery);
+        if(picked != null && state is CameraReady){
+          final file = File(picked.path);
+          emit((state as CameraReady).copyWith(
+            imageFile: file,
+            snackbarMessage: "Berhasil memilih dari galery",
+          ));
+        }
+      }
+    
     
 }
