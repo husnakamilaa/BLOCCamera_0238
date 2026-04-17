@@ -85,5 +85,32 @@ class CameraBloc extends Bloc<CameraEvent, CameraState> {
         }
       }
     
+    Future<void> _onOpenCamera(
+      OpenCameraAndCapture event, Emitter<CameraState> emit) async{
+        final bloc = event.context.read<CameraBloc>();
+
+        if(state is! CameraReady){
+          print("[CameraBloc] State is not ready, aborting...");
+          return;
+        }
+
+        final file = await Navigator.push<File?>(
+          event.context,
+          MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+              value: bloc,
+              child: const CameraPage(),
+            ),
+          ),
+        );
+        if(file != null) {
+          final saved = await StorageHelper.saveImage(file, 'camera');
+          emit((state as CameraReady).copyWith(
+            imageFile:saved,
+            snackbarMessage: "Tersimpan: ${saved.path}",
+          ));
+        }
+      }
+    
     
 }
