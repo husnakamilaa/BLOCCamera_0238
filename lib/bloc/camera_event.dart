@@ -1,9 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 sealed class CameraEvent{}
 
-final class InitialCamera extends CameraEvent{}
+final class InitializeCamera extends CameraEvent{}
 final class SwitchCamera extends CameraEvent{}
 final class ToggleFlash extends CameraEvent{}
 final class TakePicture extends CameraEvent{
@@ -23,4 +24,3 @@ final class OpenCameraAndCapture extends CameraEvent{
 final class DeleteImage extends CameraEvent{}
 final class ClearSnackbar extends CameraEvent{}
 final class RequestPermission extends CameraEvent{}
-
